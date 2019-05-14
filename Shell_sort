@@ -1,0 +1,80 @@
+// 9.17 Элементы массива А(N) упорядочить в порядке возрастания, используя сортировку Шелла.
+#include <iostream>
+#include <ctime>
+
+using namespace std;
+
+void fillingArr(int Arr[], int size, bool metod);
+void sortShell(int Arr[], int size);
+void printArr(int Arr[], int size);
+
+
+void fillingArr(int Arr[], int size, bool metod)
+{
+	for (int i = 0; i < size; i++)					//заполняем массив рандомными числами
+	{
+		int input;
+		if (metod) { Arr[i] = rand() % 100 - 50; cout << Arr[i] << " "; }	// (% 100 - 50)  диапазон чисел от -50 до +50
+		else { cin >> input; Arr[i] = input; }
+	}
+	cout << endl;
+}
+
+void printArr(int Arr[], int size)
+{
+	for (int * p = Arr; p != Arr + size; p++)		//выводим на печать через указатели
+	{
+		cout << *p << " ";
+	}
+	cout << endl;
+}
+
+void sortShell(int Arr[], int size)					// сортировка Шелла
+{
+	int d = size / 2;								// "d"  шаг выборки элементов 
+	while (d > 0)
+	{
+		for (int i = 0; i < size - d; i++)
+		{
+			int j = i;
+			while (j >= 0 && (Arr[j] > Arr[j + d]))	// сравнение элементов
+			{
+				int temp = Arr[j];					// перестановка местами
+				Arr[j] = Arr[j + d];
+				Arr[j + d] = temp;
+				j--;
+			}
+		}
+		d = d / 2;
+	}
+}
+
+
+int main()
+{
+	int key;
+	bool metod;
+	int size;
+	cout << "Choose metod of filling array: \n\t 0 - keyboard input, \n\t other number - random generator\t";
+	cin >> key; metod = bool(key);
+
+	cout << "Enter Array size \t\t\t\t";
+	cin >> size;									//указываем размерность массива
+	cout << endl;
+	cout << "\t your array before sorting: " << endl;
+
+	int *Arr = new int[size];						// динамически выделяем память под массив
+	srand(time(NULL));
+	fillingArr(Arr, size, metod);
+
+	sortShell(Arr, size);
+
+	cout << "\n \t After sort" << endl;
+	printArr(Arr, size);
+
+	delete Arr;										//освобождаем память, выделенную под массив
+	cout << endl;
+	system("PAUSE");
+
+	return 0;
+}
