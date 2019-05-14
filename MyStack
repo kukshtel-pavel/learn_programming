@@ -1,0 +1,146 @@
+#include <iostream>
+
+using namespace std;
+
+////////////NODE CLASS/////////////////
+class Node
+{
+private:
+	Node* pElem;
+	Node* pNext;
+	int date;
+	int count = 0;
+public:
+	void set_pElem() { pElem = this; };
+	Node* get_pElem() { return pElem; };
+	void set_pNext(Node* temp) { pNext = temp; };
+	Node* get_pNext() { return pNext; };
+	void setDate(int x);
+	int getDate();
+	void addCount();
+	void reduceCount();
+	int getCount() { return count; };
+
+
+	Node();
+	Node(int x);
+	~Node();
+};
+
+int Node::getDate()
+{
+	return this->date;
+}
+void Node::setDate(int x)
+{
+	this->date = x;
+}
+void Node::reduceCount()
+{
+	count = count - 1;
+}
+void Node::addCount()
+{
+	count = count + 1;
+}
+
+Node::Node()
+{
+	this->setDate(77);
+	set_pElem();
+	set_pNext(nullptr);
+	addCount();
+};
+
+Node::Node(int x)
+{
+	this->setDate(x);
+	set_pElem();
+	set_pNext(nullptr);
+	addCount();
+};
+Node::~Node() 
+{ 
+	reduceCount();
+}
+
+////////////STACK CLASS/////////////////
+class Stack : public Node
+{
+private:
+	Node* pTop;
+	
+public:
+	void set_pTop(Node* temp) { pTop = temp; };
+	Node* get_pTop() { return pTop; };
+	int getTopVal() { return pTop->getDate(); }
+
+	void push(int x);
+	void pop();
+	
+	void printStack();
+	Stack();
+	~Stack();
+};
+void Stack::push(int x)
+{
+	Node* newEl = new Node(x);
+	newEl->set_pNext(pTop);
+	set_pTop(newEl);
+	addCount();
+	
+}
+void Stack::pop()
+{
+	Node* temp = pTop;
+	if (temp->get_pNext() != nullptr) { set_pTop(pTop->get_pNext()); };
+	delete temp;
+	reduceCount();
+
+}
+void Stack::printStack()
+{
+	Node* temp = pTop;
+	cout << "\t count elements of STACK = " << getCount() << endl;
+	cout << "Top element is\t" << getTopVal() << "\t on addr " << get_pTop() << endl;
+	while (temp->get_pNext() != nullptr)
+	{
+		temp = temp->get_pNext();
+		cout << "\t\t" << temp->getDate() << "\t" << temp->get_pElem() << endl;
+	}
+}
+
+Stack::Stack()
+{
+	set_pTop(get_pElem());
+}
+
+Stack::~Stack() 
+{ 
+	while (pTop->get_pNext() != nullptr)
+	{
+		Stack::pop();
+	}
+}
+
+int main()
+{
+	Stack obj;
+	obj.push(25);
+	obj.push(64);
+	obj.push(61);
+	obj.push(2);
+	obj.push(38);
+
+	cout << "Stack BEFORE " << endl;
+	obj.printStack();
+		
+	obj.pop();
+	obj.pop();
+	cout << endl;
+	cout << "Stack AFTER " << endl;
+	obj.printStack();
+	
+	system("pause");
+	return 0;
+};
