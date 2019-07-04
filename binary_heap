@@ -1,0 +1,191 @@
+#include <iostream>
+#include <vector>							                      // container for data
+#include <iomanip>							                    // for printing heap to console
+#include <math.h>							                      // for operations with logarithms
+
+
+class Heap
+{
+private:
+	std::vector<int> tree;
+public:
+	Heap();
+	~Heap();
+	void printHeap(void);
+	int sizeHeap = 0;
+	void showHeap(void);
+	void push(int val);
+	void delMax(void);
+	void moveDown(int pos);					                   // move the item in the tree down by rank
+};
+
+Heap::Heap()
+{
+	tree.push_back(1);
+	sizeHeap++;
+}
+
+Heap::~Heap()
+{
+	tree.clear();
+	tree.shrink_to_fit();
+}
+
+void Heap::push(int val)
+{
+	sizeHeap++;
+	int indEl = sizeHeap - 1;
+	tree.push_back(val);					                       //push new element on last position of vector
+
+	//while child value > parent value  && parents position >= 0 &&  position of our element > 0
+	while (tree.at(indEl) > tree.at((indEl - 1) / 2) && ((indEl - 1) / 2) >= 0 && indEl > 0)
+	{
+		std::swap(tree[indEl], tree[(indEl - 1) / 2]);
+		indEl = (indEl - 1) / 2;
+	}
+}
+
+void Heap::delMax(void)
+{
+	std::swap(tree.at(0), tree.back());
+	tree.pop_back();
+	sizeHeap--;
+	moveDown(0);
+}
+
+void Heap::moveDown(int index)
+{
+	int parentInd = index;
+	int childInd = 2 * index + 1;				        //left child index in arr, right child position = childInd + 1
+	int maxIndex = sizeHeap - 1;				        //index last element in vector 
+
+	while (childInd < maxIndex)
+	{
+		while (tree.at(parentInd) < tree.at(childInd))
+		{
+
+			if (tree.at(childInd) > tree.at(childInd + 1))
+			{
+				std::swap(tree.at(parentInd), tree.at(childInd));
+			}
+
+			else if (tree.at(childInd) < tree.at(childInd + 1))
+			{
+				childInd = childInd + 1;
+				std::swap(tree.at(parentInd), tree.at(childInd));
+			}
+		}
+
+		parentInd = childInd;
+		childInd = (2 * childInd) + 1;
+
+	};
+
+	if (childInd == maxIndex && (tree.at(parentInd) < tree.at(childInd)))
+	{
+		std::swap(tree.at(parentInd), tree.at(childInd));
+	}
+}
+	
+void Heap::showHeap(void)						      //print elements as an array
+{
+	for (auto i : tree)
+		std::cout << i << ' ';
+}
+
+void Heap::printHeap(void)						    //print elements as an binary heap
+{
+	int count = 0;								          //local count for printing elements
+	int tempCount = 0;
+	int cpLev = 1;								          //cpLev - capacity level -- CAPACITY of elements for LEVEL our heap
+	int h = int(log(sizeHeap) / log(2));		//Hight our heap -> log_2(X) = log(x)/log(2)
+	int halfElem = int(pow(2, h));
+	int firstMargin = halfElem;					    //margin for first elements on level
+
+	while (count < sizeHeap)
+	{
+		
+		while (count < cpLev && count < sizeHeap)
+		{
+			std::cout << std::setfill('-') << std::setw(4 * firstMargin);
+			std::cout << tree.at(count);
+			std::cout << std::setfill('-') << std::setw(4 * (pow(2, h)));
+			std::cout << "";
+			count++;
+		}
+
+		std::cout << std::endl;
+		
+		if (count != sizeHeap)
+		{		
+			while (tempCount < cpLev && tempCount < sizeHeap)
+			{
+				std::cout << std::setfill(' ') << std::setw(4 * firstMargin);
+				std::cout << "/\\";
+				std::cout << std::setfill(' ') << std::setw(4 * (pow(2, h)));
+				std::cout << "";
+				tempCount++;
+			}
+		}
+		
+		std::cout << std::endl;
+		firstMargin = firstMargin / 2;
+		cpLev = cpLev * 2 + 1;
+		h--;
+	}
+	
+}
+
+int main()
+{
+	Heap HP;
+
+	HP.push(2);
+	HP.push(3);
+	HP.push(4);
+	HP.push(5);
+	HP.push(6);
+	HP.push(77);
+	HP.push(8);
+	HP.push(9);
+	HP.push(10);
+	
+	HP.push(11);
+	HP.push(12);
+	HP.push(13);
+	HP.push(14);
+	HP.push(15);
+	HP.push(16);
+	HP.push(17);
+	HP.push(18);
+	HP.push(19);
+	HP.push(20);
+
+	HP.push(21);
+	HP.push(22);
+	HP.push(23);
+	HP.push(24);
+	HP.push(25);
+	HP.push(26);
+	HP.push(27);
+	HP.push(28);
+	HP.push(29);
+	HP.push(30);
+		
+	HP.showHeap();
+	std::cout << std::endl;
+	std::cout << " Binary HEAP " <<std::endl;
+	std::cout << std::endl;
+	HP.printHeap();
+
+	std::cout << std::endl;
+
+	HP.delMax();
+	std::cout << std::endl;
+	std::cout << " After removing MAX element " << std::endl;
+	std::cout << std::endl;
+	HP.printHeap();
+	
+	std::cin.get();
+	return 0;
+}
