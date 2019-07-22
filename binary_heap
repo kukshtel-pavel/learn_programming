@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>							                      // container for data
-#include <iomanip>							                    // for printing heap to console
-#include <math.h>							                      // for operations with logarithms
+#include <vector>					// container for data
+#include <iomanip>					// for printing heap to console
+#include <math.h>					// for operations with logarithms
 
 
 class Heap
@@ -16,7 +16,7 @@ public:
 	void showHeap(void);
 	void push(int val);
 	void delMax(void);
-	void moveDown(int pos);					                   // move the item in the tree down by rank
+	void moveDown(int pos);				// move the item in the tree down by rank
 };
 
 Heap::Heap()
@@ -35,7 +35,7 @@ void Heap::push(int val)
 {
 	sizeHeap++;
 	int indEl = sizeHeap - 1;
-	tree.push_back(val);					                       //push new element on last position of vector
+	tree.push_back(val);				//push new element on last position of vector
 
 	//while child value > parent value  && parents position >= 0 &&  position of our element > 0
 	while (tree.at(indEl) > tree.at((indEl - 1) / 2) && ((indEl - 1) / 2) >= 0 && indEl > 0)
@@ -87,20 +87,20 @@ void Heap::moveDown(int index)
 	}
 }
 	
-void Heap::showHeap(void)						      //print elements as an array
+void Heap::showHeap(void)				//print elements as an array
 {
 	for (auto i : tree)
 		std::cout << i << ' ';
 }
 
-void Heap::printHeap(void)						    //print elements as an binary heap
+void Heap::printHeap(void)				//print elements as an binary heap
 {
-	int count = 0;								          //local count for printing elements
+	int count = 0;					//local count for printing elements
 	int tempCount = 0;
-	int cpLev = 1;								          //cpLev - capacity level -- CAPACITY of elements for LEVEL our heap
+	int cpLev = 1;					//cpLev - capacity level -- CAPACITY of elements for LEVEL our heap
 	int h = int(log(sizeHeap) / log(2));		//Hight our heap -> log_2(X) = log(x)/log(2)
 	int halfElem = int(pow(2, h));
-	int firstMargin = halfElem;					    //margin for first elements on level
+	int firstMargin = halfElem;			//margin for first elements on level
 
 	while (count < sizeHeap)
 	{
