@@ -1,7 +1,7 @@
 #include <iostream>
-#include <vector>					// container for data
-#include <iomanip>					// for printing heap to console
-#include <math.h>					// for operations with logarithms
+#include <vector>				// container for data
+#include <iomanip>				// for printing heap to console
+#include <math.h>				// for operations with logarithms
 
 
 class Heap
