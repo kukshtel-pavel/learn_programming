@@ -17,8 +17,8 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
 
 int main(void)
 {
-	CURL *curl;													//object CURL
-	CURLcode res;												//object for result -> curl_easy_perform
+	CURL *curl;									//object CURL
+	CURLcode res;									//object for result -> curl_easy_perform
 	static std::string answer;
 	std::string testAddr = "https://yandex.ru";					//duckduckgo.com or google.com or ...
 	const char *urlAddr = testAddr.c_str();						// convert C++ std::string to C format
@@ -28,8 +28,8 @@ int main(void)
 	std::cout << "READING INFO FROM FILE" << std::endl << std::endl;
 	std::fstream inputFile("input_proxy.txt");					// read proxies from FILE to VECTOR
 
-	std::ofstream outGood;										// write Good proxies to FILE
-	std::ofstream outBad;										// write Bad proxies to FILE
+	std::ofstream outGood;								// write Good proxies to FILE
+	std::ofstream outBad;								// write Bad proxies to FILE
 	outGood.open("out_GoodProxy.txt");
 	outBad.open("out_BadProxy.txt");
 	if (!outGood.is_open() || !outBad.is_open()) { std::cout << "ERROR opening  RESULT-file"; std::cin.get(); return 11; }
@@ -45,7 +45,7 @@ int main(void)
 
 	std::cout << "start checking" << std::endl << std::endl;
 
-	curl = curl_easy_init();												 // start INIT
+	curl = curl_easy_init();							 // start INIT
 
 	while (count > 0)
 	{
@@ -54,16 +54,16 @@ int main(void)
 		{
 			curl_easy_setopt(curl, CURLOPT_URL, urlAddr);
 			std::string two = *proxyVal;
-			const char *proxy = two.c_str();								// convert C++ std::string to C format
+			const char *proxy = two.c_str();				// convert C++ std::string to C format
 
 			std::cout << *proxyVal << "\t";
 
-			curl_easy_setopt(curl, CURLOPT_PROXY, proxy);					// set proxy for CURL-requests
-			curl_easy_setopt(curl, CURLOPT_HEADER, 1L);						// 0L - don't show header info, 1L -show
-			curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3L);				// set "connection timeout" // complete connection within 3 seconds
+			curl_easy_setopt(curl, CURLOPT_PROXY, proxy);			// set proxy for CURL-requests
+			curl_easy_setopt(curl, CURLOPT_HEADER, 1L);			// 0L - don't show header info, 1L -show
+			curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3L);		// set "connection timeout" // complete connection within 3 seconds
 			curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);	// content from site redirect to answer
-			curl_easy_setopt(curl, CURLOPT_WRITEDATA, &answer);				// content from site redirect to answer
-			curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);			// disable SSL certificate verification
+			curl_easy_setopt(curl, CURLOPT_WRITEDATA, &answer);		// content from site redirect to answer
+			curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);		// disable SSL certificate verification
 
 
 			res = curl_easy_perform(curl);	// call "curl_easy_perform" which processed REQUEST with OPTIONS and return result, if res == 0 -> OK, else -> ERROR
@@ -79,7 +79,7 @@ int main(void)
 			std::cout << "\t" << codeStat;
 			std::cout << std::endl;
 
-			answer.erase(answer.begin(), answer.end());							// delete previous content from site
+			answer.erase(answer.begin(), answer.end());			// delete previous content from site
 		}
 
 		count--;
