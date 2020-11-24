@@ -1,2 +1,2 @@
 # learn_programming
-# If you want to know how to learn to program - you just must program!!!!!!
+# If you want  to start to program - just start to program :-) !!!
